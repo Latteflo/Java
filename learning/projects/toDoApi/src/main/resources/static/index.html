@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Todo API interface </title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        input, button { font-size: 1em; margin: 10px 0; }
+        #todoList { list-style-type: none; padding: 0; }
+        #todoList li { margin: 10px 0; padding: 10px; background-color: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1>Todo API Interface</h1>
+    <form id="addTodoForm">
+        <input type="text" id="todoTitle" placeholder="Enter todo title" required>
+        <button type="submit">Add Todo</button>
+    </form>
+    <h2>Todo List</h2>
+    <ul id="todoList"></ul>
+
+    <script>
+        const apiUrl = 'http://localhost:8082/api/todos';
+
+        document.getElementById('addTodoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('todoTitle').value;
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: title })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('todoTitle').value = '';
+                fetchTodos();
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        // Function to fetch and display todos
+        function fetchTodos() {
+            fetch(apiUrl)
+            .then(response => response.json())
+            .then(todos => {
+                const todoList = document.getElementById('todoList');
+                todoList.innerHTML = '';
+                todos.forEach(todo => {
+                    const li = document.createElement('li');
+                    li.textContent = `${todo.title} (${todo.completed ? 'Completed' : 'Pending'})`;
+                    todoList.appendChild(li);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        fetchTodos();
+    </script>
+</body>
+</html>
