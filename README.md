@@ -57,3 +57,4 @@ Basic Java Concepts
 
 3.  Java Projects:
        -   [Java Spring Boot Todo API ](learning/projects/toDoApi/README.md) - A simple todo API using Spring Boot. Build the app with `mvn clean package` and run the application using `mvn spring-boot:run` - open on  `http://localhost:8082/` to view the minimal interface for it or `http://localhost:8082/api/todos` for the naked api.
+       -   [Guess the Number Game](learning/projects/guessTheNr/README.md) - A simple game where the user guesses a number between 1 and 100 with a limited number of attempts and different difficulty levels.
